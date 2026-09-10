@@ -32,6 +32,7 @@ from src.nerdearla import nerdearlacharlasfunc
 from src.shithappens import ShitHappens
 from src.f1 import f1func
 from src.infleta import infletafun
+from src.mundial import mundialfun
 
 #IMPORT DE FUNCIONES PARA SISTEMA DE JOBS
 from src.jobsearch import jobsearchfunc
@@ -63,6 +64,7 @@ from src.ctxcommands.ctxunderground import undergroundfunctx
 from src.ctxcommands.ctxnerdearla import nerdearlafunctx
 from src.ctxcommands.ctxjobsearch import jobsearchfunctx
 from src.ctxcommands.ctxf1 import formula1ctxfunc
+from src.ctxcommands.ctxmundial import mundialfunctx
                                                                  
 
 # BOFH - Discord community bot for Sysarmy
@@ -634,6 +636,11 @@ async def on_message(message):
 async def help(ctx, texto):
     await helpfunctx(ctx, texto)
 
+# COMANDO MUNDIAL
+@bot.command()
+async def mundial(ctx):
+    await mundialfunctx(ctx)
+
 # COMANDO CLIMA   
 @bot.command()
 async def clima(ctx, ciudad):
@@ -786,6 +793,15 @@ async def tasacaucho(interaction: Interaction):
     except:
         print(f"Limite de API calls excedido. Ultimo call hecho por {interaction.user}")
         await interaction.response.send_message("Comando /caucho: Limite de API calls excedido. Sori el CTO no nos dio budget.")
+
+# COMANDO MUNDIAL (SLASH)
+@bot.tree.command(name="mundial", description="Partidos del dia de la Copa del Mundo FIFA 2026")
+async def mundial_slash(interaction: discord.Interaction):
+    try:
+        await interaction.response.send_message(embed=await mundialfun(interaction))
+    except Exception as e:
+        print(f"Error en /mundial: {e}")
+        await interaction.response.send_message("Comando /mundial: Error al consultar los partidos. Intenta mas tarde.")
 
 # COMANDO DOLAR
 @bot.tree.command(name="preciodolar", description="Cotizacion del dolar")
